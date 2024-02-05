@@ -44,7 +44,39 @@
 
 
           <a class="nav-link btn btn-info create-new-button text-light" style="margin: 10px;padding:10px "  href="{{url( 'post_page' )}}">+ Upload New Material</a>
-
+          <h2>Latest Posts</h2>
+          <div class="row">
+            @foreach($latestpost as $latestpost)
+              <div class="col-md-3">
+                <div class="card mb-4" style="border-radius: 10px; border: 1px solid #ccc;">
+                  <div class="card-body" style="background-color: rgb(244, 238, 238); color: rgb(19, 17, 17);">
+          
+                    <h3 class="card-title" style="color: black;align-item:center;text-align:center;">{{ $latestpost->title }}</h3>
+                    <h5 class="card-text">{{ limitWords($latestpost->description, 20) }}</h5>
+          
+                    <p class="card-text"> Category : {{ $latestpost->case }} / {{ $latestpost->case_name }}</p>
+                    <p class="card-text"> Created By : {{ $latestpost->creator_name }}</p>
+                    <p class="card-text"> Created At : {{ $latestpost->created_at }}</p>
+                    <!-- Display Images, PDFs, or Audio Files -->
+                    <a href="{{url('post_details', $latestpost->id)}}"><button type="button" class="btn btn-primary">Show More</button></a>
+                    <a href="{{url('delete_post', $latestpost->id)}}"><button type="button" class="btn btn-danger">Delete</button></a>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          </div> 
+          
+          @php
+          function limitWords($text, $limit) {
+              $words = explode(' ', $text, $limit + 1);
+              if (count($words) > $limit) {
+                  array_pop($words);
+                  return implode(' ', $words) . '...';
+              }
+              return implode(' ', $words);
+          }
+          @endphp
+          
   <h2>Long Cases</h2>
           <div class="row">
             @foreach($options as $option)
@@ -86,11 +118,6 @@
 </div>
 
 
-
-
-
-        
-            
               
 
 

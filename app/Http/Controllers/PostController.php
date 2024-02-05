@@ -16,6 +16,7 @@ class PostController extends Controller
     public function home()
     {
         $post = Post::all();
+        $latestpost = Post::latest()->take(4)->get();
         $options = [
             (object)['text' => 'Dysphagia', 'value' => 'dysphagia'],
             (object)['text' => 'Epigastric Pain and Dyspepsia', 'value' => 'epigastricPain'],
@@ -64,7 +65,7 @@ class PostController extends Controller
             // Add more options as needed
         ];
 
-        return view('post.home',compact('post'),['options' => $options,'optionsSet2' => $optionsSet2,'optionsother' => $optionsother]);
+        return view('post.home',compact('post','latestpost'),['options' => $options,'optionsSet2' => $optionsSet2,'optionsother' => $optionsother]);
     }
 
     public function add_post(Request $request)
@@ -101,8 +102,8 @@ class PostController extends Controller
         
         $post->save();
 
-        return redirect()->back()->with('message', 'Added Successfully');
-        	
+        return redirect('/')->with('message', 'Added Successfully');
+
 
     }
 
